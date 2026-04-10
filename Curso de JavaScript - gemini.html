@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript - Do básico ao avançado</title>
+    <!-- Tailwind CSS para Estilização Material Design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonte Roboto do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Ícones Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <!-- PrismJS CSS para o realce de sintaxe estilo VS Code -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        mono: ['Consolas', 'Monaco', 'Courier New', 'monospace'],
+                    },
+                    colors: {
+                        google: {
+                            blue: '#1a73e8',
+                            blueBg: '#e8f0fe',
+                            red: '#ea4335',
+                            redBg: '#fce8e6',
+                            yellow: '#fbbc04',
+                            yellowBg: '#fef7e0',
+                            green: '#34a853',
+                            greenBg: '#e6f4ea',
+                            gray: '#f1f3f4',
+                            text: '#202124',
+                            textLight: '#5f6368'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { color: #202124; background-color: #f8f9fa; }
+        
+        /* Customizações Material Design 3 */
+        .card { background: #fff; border: 1px solid #dadce0; border-radius: 12px; }
+        .sidebar-link { display: block; padding: 8px 16px; border-radius: 0 24px 24px 0; color: #3c4043; font-size: 0.875rem; font-weight: 500; transition: background 0.2s; }
+        .sidebar-link:hover { background-color: #f1f3f4; color: #202124; }
+        .sidebar-heading { font-size: 0.75rem; font-weight: 700; color: #5f6368; text-transform: uppercase; letter-spacing: 0.5px; margin: 16px 0 8px 16px; }
+        
+        /* Blocos de Aviso / Info */
+        .callout { border-radius: 16px; padding: 20px; margin: 24px 0; display: flex; gap: 16px; }
+        .callout-icon { font-size: 24px; flex-shrink: 0; }
+        .callout-tech { background-color: #e8f0fe; color: #1a73e8; }
+        .callout-tech .text-content { color: #1a73e8; }
+        .callout-warning { background-color: #fce8e6; color: #d93025; }
+        .callout-warning .text-content { color: #b31412; }
+        .callout-good { background-color: #e6f4ea; color: #1e8e3e; }
+        .callout-good .text-content { color: #0d652d; }
+        
+        /* Tipografia de Conteúdo */
+        h1, h2, h3, h4 { font-weight: 400; letter-spacing: -0.5px; }
+        h2 { font-size: 2rem; margin-top: 2rem; margin-bottom: 1rem; color: #202124; border-bottom: 1px solid #dadce0; padding-bottom: 8px;}
+        h3 { font-size: 1.375rem; margin-top: 2rem; margin-bottom: 0.75rem; color: #202124; }
+        p { margin-bottom: 1rem; line-height: 1.6; color: #3c4043; }
+        ul.content-list { list-style-type: disc; margin-left: 24px; margin-bottom: 16px; color: #3c4043; }
+        ul.content-list li { margin-bottom: 8px; line-height: 1.5; }
+        
+        /* Code snippet custom styles */
+        pre[class*="language-"] { border-radius: 0 0 12px 12px; margin: 0; border: none; padding: 1.5rem; }
+        .code-window { border-radius: 12px; overflow: hidden; margin: 24px 0; border: 1px solid #dadce0; box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3); }
+        .code-header { background-color: #f1f3f4; padding: 8px 16px; font-size: 0.8rem; font-family: monospace; color: #5f6368; border-bottom: 1px solid #dadce0; display: flex; align-items: center; gap: 8px;}
+        .code-header::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; background-color: #dadce0; box-shadow: 16px 0 0 #dadce0, 32px 0 0 #dadce0; margin-right: 32px;}
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar Navegação -->
+    <aside class="w-72 bg-white border-r border-[#dadce0] flex-shrink-0 h-full overflow-y-auto hidden lg:block pb-10">
+        <div class="p-6 sticky top-0 bg-white border-b border-[#dadce0] z-10">
+            <h1 class="text-2xl font-normal text-google-blue flex items-center gap-2">
+                <span class="material-symbols-outlined text-3xl">javascript</span>
+                JS Completo
+            </h1>
+            <p class="text-xs text-google-textLight mt-1">Do básico ao avançado</p>
+        </div>
+        
+        <nav class="mt-4 pr-4">
+            <div class="sidebar-heading">Módulo 1 — Fundamentos</div>
+            <a href="#topico-1" class="sidebar-link">1. O que é JavaScript?</a>
+            <a href="#topico-2" class="sidebar-link">2. Variáveis</a>
+            <a href="#topico-3" class="sidebar-link">3. Tipos de Dados</a>
+            <a href="#topico-4" class="sidebar-link">4. Operadores</a>
+            <a href="#topico-5" class="sidebar-link">5. Console.log</a>
+
+            <div class="sidebar-heading">Módulo 2 — Controle de Fluxo</div>
+            <a href="#topico-6" class="sidebar-link">6. Condicionais (if/else)</a>
+            <a href="#topico-7" class="sidebar-link">7. Loops (for/while)</a>
+            <a href="#topico-8" class="sidebar-link">8. Switch</a>
+
+            <div class="sidebar-heading">Módulo 3 — Funções</div>
+            <a href="#topico-9" class="sidebar-link">9. Introdução às Funções</a>
+            <a href="#topico-10" class="sidebar-link">10. Parâmetros e Retorno</a>
+            <a href="#topico-11" class="sidebar-link">11. Arrow Functions</a>
+
+            <div class="sidebar-heading">Módulo 4 — Estruturas de Dados</div>
+            <a href="#topico-12" class="sidebar-link">12. Arrays</a>
+            <a href="#topico-13" class="sidebar-link">13. Métodos de Array</a>
+            <a href="#topico-14" class="sidebar-link">14. Objetos</a>
+            <a href="#topico-15" class="sidebar-link">15. Métodos de Objeto</a>
+
+            <div class="sidebar-heading">Módulo 5 — DOM & Interação</div>
+            <a href="#topico-16" class="sidebar-link">16. O DOM</a>
+            <a href="#topico-17" class="sidebar-link">17. Seleção de Elementos</a>
+            <a href="#topico-18" class="sidebar-link">18. Manipulação do DOM</a>
+            <a href="#topico-19" class="sidebar-link">19. Eventos</a>
+
+            <div class="sidebar-heading">Módulo 6 — Conceitos Avançados</div>
+            <a href="#topico-20" class="sidebar-link">20. Promises</a>
+            <a href="#topico-21" class="sidebar-link">21. Async/Await</a>
+            <a href="#topico-22" class="sidebar-link">22. Fetch API</a>
+            <a href="#topico-23" class="sidebar-link">23. LocalStorage</a>
+            <a href="#topico-24" class="sidebar-link">24. Projeto Final</a>
+        </nav>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-1 h-full overflow-y-auto bg-[#f8f9fa] scroll-smooth p-4 md:p-8">
+        <div class="max-w-4xl mx-auto card p-8 md:p-12 mb-12 shadow-sm">
+            
+            <header class="mb-12 text-center pb-8 border-b border-[#dadce0]">
+                <h1 class="text-4xl md:text-5xl font-medium text-google-text mb-4">JavaScript</h1>
+                <p class="text-xl text-google-textLight">Do básico ao avançado. Conceitos técnicos explicados de forma clara e direta.</p>
+                <div class="mt-6 flex justify-center gap-2">
+                    <span class="bg-google-blueBg text-google-blue px-3 py-1 rounded-full text-sm font-medium">Estruturado para impressão</span>
+                    <span class="bg-google-gray text-google-textLight px-3 py-1 rounded-full text-sm font-medium">Revisado e Corrigido</span>
+                </div>
+            </header>
+
+            <!-- Tópico 1 -->
+            <section id="topico-1" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 1.</span> O que é JavaScript?</h2>
+                
+                <div class="callout callout-tech">
+                    <span class="material-symbols-outlined callout-icon">menu_book</span>
+                    <div class="text-content">
+                        <strong>Definição Técnica</strong><br>
+                        JavaScript é uma linguagem de programação de alto nível, interpretada e de múltiplos paradigmas. Originalmente criada para rodar em navegadores web, ela permite adicionar comportamento dinâmico a páginas estáticas. Enquanto o HTML define a estrutura do conteúdo e o CSS define a apresentação visual, o JavaScript é responsável pela lógica e interatividade. Sem ele, os sites seriam documentos estáticos, semelhantes a PDFs na tela.
+                    </div>
+                </div>
+
+                <div class="callout callout-tech bg-[#fef7e0] text-[#ea8600]">
+                    <span class="material-symbols-outlined callout-icon">lightbulb</span>
+                    <div class="text-content" style="color: #b05c00;">
+                        <strong>Analogia Técnica</strong><br>
+                        Imagine um automóvel: HTML é a estrutura metálica e a carroceria (o que existe fisicamente). CSS é a pintura, os acabamentos e o design (como aparece visualmente). JavaScript é o motor, a transmissão e os sistemas eletrônicos (o que faz o carro se mover, responder ao volante e executar funções).
+                    </div>
+                </div>
+
+                <h3>Para que serve?</h3>
+                <p>JavaScript é utilizado em praticamente todas as camadas do desenvolvimento moderno:</p>
+                <ul class="content-list">
+                    <li><strong>Front-end:</strong> Interatividade em sites, validação de formulários, animações e aplicações web completas (SPAs).</li>
+                    <li><strong>Back-end:</strong> Servidores e APIs usando ambientes como Node.js.</li>
+                    <li><strong>Mobile:</strong> Aplicativos nativos e híbridos (React Native, Ionic).</li>
+                    <li><strong>Automação & Scripts:</strong> Tarefas repetitivas, extensões de navegador e ferramentas de desenvolvimento.</li>
+                </ul>
+
+                <h3>Nota Histórica</h3>
+                <p>Criado por Brendan Eich em 1995 para o navegador Netscape, o JavaScript foi desenvolvido em apenas 10 dias. Apesar do nome, não possui relação direta com a linguagem Java. O nome foi uma decisão de marketing da época.</p>
+
+                <h3>Primeiro Exemplo Prático</h3>
+                <p>O comando <code>console.log()</code> é a forma padrão de exibir informações no console do navegador ou do terminal. Ele é essencial para depuração (debugging) e testes iniciais.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Primeiro Script</div>
+<pre><code class="language-javascript">// Comentários são ignorados pelo interpretador.
+// Servem para documentar o código.
+
+console.log("JavaScript carregado com sucesso.");
+console.log("Executando primeira instrução.");
+console.log(42 + 8);</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <span class="material-symbols-outlined callout-icon">warning</span>
+                    <div class="text-content">
+                        <strong>Atenção</strong><br>
+                        JavaScript é case-sensitive. <code>console.log</code> funciona, mas <code>Console.Log</code> ou <code>CONSOLE.LOG</code> gerarão um erro de referência (ReferenceError). A sintaxe deve ser escrita exatamente como definida pela linguagem.
+                    </div>
+                </div>
+
+                <h3>Como Executar</h3>
+                <ul class="content-list">
+                    <li><strong>Console do Navegador:</strong> Pressione F12 ou Ctrl+Shift+I, acesse a aba "Console" e digite o código diretamente.</li>
+                    <li><strong>Playgrounds Online:</strong> Plataformas como CodePen, JSFiddle ou Replit permitem escrever, executar e salvar código sem configuração local.</li>
+                    <li><strong>Node.js:</strong> Ambiente de execução que roda JavaScript fora do navegador, ideal para back-end e scripts.</li>
+                </ul>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1 — Verificação de Ambiente:</strong> Execute <code>console.log(typeof window)</code> no console do navegador. O que o resultado indica sobre o ambiente de execução?</p>
+                    <p><strong>Exercício 2 — Saída Múltipla:</strong> Escreva três instruções <code>console.log()</code> seguidas. A primeira deve exibir uma string, a segunda um número e a terceira uma operação matemática simples.</p>
+                    <p><strong>Exercício 3 — Depuração Intencional:</strong> Tente executar <code>consol.log("Erro proposital")</code>. Observe a mensagem de erro no console. Por que o interpretador não consegue executar a instrução?</p>
+                </div>
+            </section>
+
+            <!-- Tópico 2 -->
+            <section id="topico-2" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 2.</span> Variáveis</h2>
+                
+                <div class="callout callout-tech">
+                    <span class="material-symbols-outlined callout-icon">menu_book</span>
+                    <div class="text-content">
+                        <strong>Definição Técnica</strong><br>
+                        Variáveis são identificadores nomeados que armazenam referências a valores na memória do computador. Em vez de trabalhar diretamente com endereços de memória complexos, o programador utiliza nomes simbólicos para ler e modificar dados durante a execução do código. O JavaScript é uma linguagem dinamicamente tipada, o que significa que o tipo do valor é inferido automaticamente em tempo de execução.
+                    </div>
+                </div>
+
+                <div class="callout callout-tech bg-[#fef7e0] text-[#ea8600]">
+                    <span class="material-symbols-outlined callout-icon">lightbulb</span>
+                    <div class="text-content" style="color: #b05c00;">
+                        <strong>Analogia Técnica</strong><br>
+                        Imagine um sistema de armazenamento organizado: cada caixa possui uma etiqueta (nome da variável) e um conteúdo (valor). Quando você precisa do conteúdo, não procura em todas as caixas; basta ler a etiqueta.
+                    </div>
+                </div>
+
+                <h3>Declaração: let, const e var</h3>
+                <ul class="content-list">
+                    <li><strong>let:</strong> Declarada para valores que serão modificados posteriormente. Possui escopo de bloco.</li>
+                    <li><strong>const:</strong> Declarada para valores que não devem ser reatribuídos. Possui escopo de bloco. É a escolha padrão.</li>
+                    <li><strong>var:</strong> Forma legada. Possui escopo de função e sofre de hoisting (elevação), o que frequentemente gera bugs difíceis de rastrear. Evite em código moderno.</li>
+                </ul>
+
+                <div class="callout callout-good">
+                    <span class="material-symbols-outlined callout-icon">check_circle</span>
+                    <div class="text-content">
+                        <strong>Boa Prática</strong><br>
+                        Comece declarando tudo com <code>const</code>. Se a lógica do programa exigir que o valor mude, altere para <code>let</code>.
+                    </div>
+                </div>
+
+                <h3>Regras de Nomenclatura</h3>
+                <p>Devem começar com letra, <code>_</code> (underscore) ou <code>$</code> (cifrão). Não podem conter espaços ou começar com números. São case-sensitive. Utilize <code>camelCase</code> para variáveis comuns.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Nomenclatura</div>
+<pre><code class="language-javascript">// Válido
+let nomeCompleto = "Ana Silva";
+const idade = 10;
+let _contador = 0;
+
+// Inválido (gera erro de sintaxe)
+// let 2idade = 10;       // Não pode começar com número
+// let nome completo = "X"; // Não pode conter espaços
+// let class = "A";       // Palavra reservada</code></pre>
+                </div>
+
+                <h3>Atribuição e Reatribuição</h3>
+                <p>O operador <code>=</code> em JavaScript não representa igualdade matemática, mas sim atribuição.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Atribuição</div>
+<pre><code class="language-javascript">const nivelBateria = 85;
+let usuarioLogado = true;
+let mensagemPadrao = "Sistema inicializado.";
+
+// Reatribuição válida (let)
+mensagemPadrao = "Atualização aplicada.";
+usuarioLogado = false;
+
+// Reatribuição inválida (const) - gera TypeError
+// nivelBateria = 50; </code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <span class="material-symbols-outlined callout-icon">warning</span>
+                    <div class="text-content">
+                        <strong>Atenção: let vs const em Objetos</strong><br>
+                        <code>const</code> impede a reatribuição da variável, mas não congela o conteúdo de objetos ou arrays. Você pode modificar propriedades internas de um objeto declarado com const.
+                    </div>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Declarar uma variável <code>let</code> chamada statusTarefa com o valor "pendente". Na linha seguinte, reatribua-a para "concluída". Exiba o valor final no console.</p>
+                    <p><strong>Exercício 2:</strong> Crie uma constante <code>anoNascimento</code> com o valor 2014. Tente reatribuí-la para 2015. Analise a mensagem de erro.</p>
+                    <p><strong>Exercício 3:</strong> Identifique os nomes inválidos e corrija-os aplicando a convenção camelCase: <code>let nome_aluno = "Lucas"; let 3tentativas = 5; const PrecoTotal = 99.90;</code></p>
+                </div>
+            </section>
+
+            <!-- Tópico 3 -->
+            <section id="topico-3" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 3.</span> Tipos de Dados</h2>
+                
+                <div class="callout callout-tech">
+                    <span class="material-symbols-outlined callout-icon">menu_book</span>
+                    <div class="text-content">
+                        <strong>Definição Técnica</strong><br>
+                        Todo valor armazenado pertence a uma categoria chamada tipo de dado. JavaScript classifica os dados em primitivos (imutáveis) e objetos (estruturas complexas). Os 5 tipos primitivos essenciais são: string, number, boolean, undefined e null.
+                    </div>
+                </div>
+
+                <div class="callout callout-tech bg-[#fef7e0] text-[#ea8600]">
+                    <span class="material-symbols-outlined callout-icon">lightbulb</span>
+                    <div class="text-content" style="color: #b05c00;">
+                        <strong>Analogia Técnica</strong><br>
+                        Imagine um painel de controle:<br>
+                        <strong>string</strong> = Etiquetas textuais coladas nos botões.<br>
+                        <strong>number</strong> = Mostradores analógicos (velocidade, temperatura).<br>
+                        <strong>boolean</strong> = Interruptores de duas posições (Ligado/Desligado).
+                    </div>
+                </div>
+
+                <h3>Tipos de Valor: string, number e boolean</h3>
+                <div class="code-window">
+                    <div class="code-header">javascript — Declaração dos tipos</div>
+<pre><code class="language-javascript">const nomeJogo = "Space Defender";   // string
+const pontuacao = 1250.75;           // number
+const estaOnline = true;             // boolean
+const tentativasRestantes = 3;       // number</code></pre>
+                </div>
+
+                <h3>Ausência de Valor: undefined e null</h3>
+                <ul class="content-list">
+                    <li><strong>undefined:</strong> Atribuído automaticamente quando uma variável não recebe conteúdo inicial.</li>
+                    <li><strong>null:</strong> Atribuído intencionalmente pelo programador para indicar ausência deliberada.</li>
+                </ul>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — undefined vs null</div>
+<pre><code class="language-javascript">let emailConfirmado;
+console.log(emailConfirmado); // undefined (padrão)
+
+emailConfirmado = null;
+console.log(emailConfirmado); // null (definido pelo dev)</code></pre>
+                </div>
+
+                <h3>Verificação de Tipos com typeof</h3>
+                <div class="code-window">
+                    <div class="code-header">javascript — Operador typeof</div>
+<pre><code class="language-javascript">console.log(typeof "JavaScript");  // "string"
+console.log(typeof 42);           // "number"
+console.log(typeof true);          // "boolean"
+console.log(typeof undefined);     // "undefined"
+console.log(typeof null);          // "object" (herança histórica da linguagem)</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <span class="material-symbols-outlined callout-icon">warning</span>
+                    <div class="text-content">
+                        <strong>Atenção: Coerção de Tipos</strong><br>
+                        JavaScript tenta converter tipos automaticamente em operações mistas. Exemplo: <code>"5" + 3</code> resulta em <code>"53"</code> (concatenação de strings), enquanto <code>"5" - 3</code> resulta em <code>2</code> (conversão para número).
+                    </div>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Crie variáveis (const) com texto, número e booleano. Exiba o <code>typeof</code> delas no console.</p>
+                    <p><strong>Exercício 2:</strong> Sem executar, preveja o resultado: <code>console.log("10" + 5); console.log(10 + 5); console.log(typeof true);</code></p>
+                    <p><strong>Exercício 3:</strong> Escreva um código que declare <code>statusPedido</code> sem valor. Depois reatribua explicitamente para <code>null</code>.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 4 CORRIGIDO -->
+            <section id="topico-4" class="scroll-mt-12 mb-16 relative">
+                <span class="absolute top-0 right-0 bg-google-green text-white text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg shadow">Corrigido & Revisado</span>
+                <h2><span class="text-google-blue font-bold">Tópico 4.</span> Operadores</h2>
+                
+                <div class="callout callout-tech">
+                    <span class="material-symbols-outlined callout-icon">menu_book</span>
+                    <div class="text-content">
+                        <strong>Definição Técnica</strong><br>
+                        Operadores são símbolos ou palavras-chave que executam operações sobre operandos. Cada categoria possui prioridade de execução (precedência), determinando a ordem de resolução em expressões.
+                    </div>
+                </div>
+
+                <h3>Operadores Aritméticos</h3>
+                <p>Realizam operações matemáticas básicas sobre valores numéricos: adição (<code>+</code>), subtração (<code>-</code>), multiplicação (<code>*</code>), divisão (<code>/</code>) e potência (<code>**</code>). O operador <code>%</code> (módulo) retorna o resto da divisão inteira, sendo amplamente utilizado para verificar paridade.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Aritméticos</div>
+<pre><code class="language-javascript">const base = 15;
+const divisor = 4;
+
+console.log(base + 5);       // 20 (adição)
+console.log(base - 5);       // 10 (subtração)
+console.log(base * 2);       // 30 (multiplicação)
+console.log(base / divisor); // 3.75 (divisão)
+console.log(base % divisor); // 3 (resto da divisão)
+console.log(2 ** 8);         // 256 (potência)</code></pre>
+                </div>
+
+                <h3>Operadores de Atribuição</h3>
+                <p>Além do operador básico <code>=</code>, o JavaScript oferece atalhos que combinam atribuição com outra operação matemática.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Atribuição Composta</div>
+<pre><code class="language-javascript">let pontos = 100;
+
+pontos += 25;  // Equivalente a: pontos = pontos + 25;
+console.log(pontos); // 125
+
+pontos -= 10;  // Equivalente a: pontos = pontos - 10;
+console.log(pontos); // 115
+
+pontos *= 2;   // Equivalente a: pontos = pontos * 2;
+console.log(pontos); // 230</code></pre>
+                </div>
+
+                <h3>Operadores de Comparação</h3>
+                <ul class="content-list">
+                    <li><strong><code>===</code> (Estrita):</strong> Verifica valor e tipo. Recomendado em 99% dos casos.</li>
+                    <li><strong><code>==</code> (Solta):</strong> Verifica apenas valor, aplicando coerção de tipos. Pode gerar bugs.</li>
+                    <li><strong><code>!==</code> / <code>!=</code>:</strong> Versões negadas, respectivamente estrita e solta.</li>
+                </ul>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Comparação</div>
+<pre><code class="language-javascript">console.log(5 === 5);       // true (mesmo tipo e valor)
+console.log(5 === "5");     // false (tipos diferentes)
+console.log(5 == "5");      // true (coerção aplicada)
+console.log(10 > 7);        // true
+console.log(3 <= 3);        // true</code></pre>
+                </div>
+
+                <div class="callout callout-good">
+                    <span class="material-symbols-outlined callout-icon">check_circle</span>
+                    <div class="text-content">
+                        <strong>Padrão de Mercado</strong><br>
+                        Utilize sempre <code>===</code> e <code>!==</code>. A igualdade solta realiza conversões que mascaram erros de lógica.
+                    </div>
+                </div>
+
+                <h3>Operadores Lógicos</h3>
+                <ul class="content-list">
+                    <li><strong><code>&&</code> (AND):</strong> Retorna true apenas se todas as condições forem verdadeiras.</li>
+                    <li><strong><code>||</code> (OR):</strong> Retorna true se pelo menos uma condição for verdadeira.</li>
+                    <li><strong><code>!</code> (NOT):</strong> Inverte o valor lógico da expressão.</li>
+                </ul>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Lógicos</div>
+<pre><code class="language-javascript">const temCarteira = true;
+const temIdade = 18 >= 18; // true
+
+// Ambas devem ser verdadeiras
+const podeDirigir = temCarteira && temIdade;
+console.log(podeDirigir); // true
+
+// Inversão lógica
+console.log(!podeDirigir); // false</code></pre>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Crie variáveis para notas. Calcule a média, armazene e exiba. Adicione 0.5 à média usando <code>+=</code>.</p>
+                    <p><strong>Exercício 2:</strong> Use o operador <code>%</code> para criar uma expressão que retorne true se o número for par.</p>
+                    <p><strong>Exercício 3:</strong> Validação lógica com <code>&&</code> e <code>||</code> sobre chovendo, temGuardaChuva e temCasaco.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 5 -->
+            <section id="topico-5" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 5.</span> console.log e Depuração Básica</h2>
+                
+                <div class="callout callout-tech bg-[#fef7e0] text-[#ea8600]">
+                    <span class="material-symbols-outlined callout-icon">lightbulb</span>
+                    <div class="text-content" style="color: #b05c00;">
+                        <strong>Analogia Técnica</strong><br>
+                        O console é a caixa-preta do seu código. Ela não controla o sistema, mas registra dados críticos em tempo real.
+                    </div>
+                </div>
+
+                <h3>Formatação com Template Literals</h3>
+                <p>A forma moderna de construir saídas dinâmicas utiliza template literals (delimitados por crases <code>` `</code>). A sintaxe <code>${expressão}</code> interpola variáveis diretamente.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Interpolação de strings</div>
+<pre><code class="language-javascript">const nivel = 7;
+const experiencia = "intermediário";
+
+// Método antigo (concatenação)
+console.log("Nível: " + nivel + " | Perfil: " + experiencia);
+
+// Método moderno (template literal)
+console.log(`Nível: ${nivel} | Perfil: ${experiencia}`);
+console.log(`Progresso: ${nivel * 10}%`);</code></pre>
+                </div>
+
+                <h3>Métodos Auxiliares do Console</h3>
+                <ul class="content-list">
+                    <li><strong><code>console.warn()</code>:</strong> Registra avisos em amarelo.</li>
+                    <li><strong><code>console.error()</code>:</strong> Registra falhas críticas em vermelho.</li>
+                    <li><strong><code>console.table()</code>:</strong> Formata arrays ou objetos em uma tabela legível.</li>
+                    <li><strong><code>console.time()</code> / <code>console.timeEnd()</code>:</strong> Medem tempo de execução.</li>
+                </ul>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Métodos do console</div>
+<pre><code class="language-javascript">// Registro estruturado
+console.warn("Bateria abaixo de 15%. Recarregue.");
+
+// Tabela para inspeção visual
+const jogadores = [
+  { nome: "Ana", pontos: 1250 },
+  { nome: "Leo", pontos: 980 }
+];
+console.table(jogadores);</code></pre>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Simule um ataque subtraindo dano de energia e exiba no console.</p>
+                    <p><strong>Exercício 2:</strong> Diferencie os métodos log, warn e error baseado na idade (if/else).</p>
+                    <p><strong>Exercício 3:</strong> Inspecione um array de objetos de produtos usando <code>console.table()</code>.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 6 -->
+            <section id="topico-6" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 6.</span> Condicionais (if / else)</h2>
+                
+                <p>Condicionais são estruturas de controle de fluxo que permitem executar blocos distintos com base na avaliação booleana. O fluxo avança apenas quando a condição é satisfeita.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Estrutura condicional</div>
+<pre><code class="language-javascript">const nivelAcesso = "editor";
+
+if (nivelAcesso === "admin") {
+  console.log("Acesso total concedido.");
+} else if (nivelAcesso === "editor") {
+  console.log("Edição habilitada. Permissão limitada.");
+} else {
+  console.log("Acesso negado. Contate o administrador.");
+}</code></pre>
+                </div>
+
+                <h3>Valores Truthy e Falsy</h3>
+                <ul class="content-list">
+                    <li><strong>Falsy:</strong> <code>false</code>, <code>0</code>, <code>""</code>, <code>null</code>, <code>undefined</code> e <code>NaN</code>.</li>
+                    <li><strong>Truthy:</strong> Tudo fora da lista (ex: strings não vazias, arrays vazios <code>[]</code>, números diferentes de zero).</li>
+                </ul>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Coerção em condições</div>
+<pre><code class="language-javascript">if ("texto") console.log("truthy");      // Executa
+if (0) console.log("falsy");            // Ignora
+if ([]) console.log("truthy");          // Executa (array vazio é truthy!)</code></pre>
+                </div>
+                
+                <div class="callout callout-good">
+                    <span class="material-symbols-outlined callout-icon">check_circle</span>
+                    <div class="text-content">
+                        <strong>Boa Prática</strong><br>
+                        Em vez de verificar <code>if (usuario && usuario.ativo === true)</code>, extraia a validação: <code>const podeAcessar = usuario && usuario.ativo;</code> e depois use <code>if(podeAcessar)</code>.
+                    </div>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Verifique se a constante <code>senha</code> possui conteúdo.</p>
+                    <p><strong>Exercício 2:</strong> Crie um sistema de notas (S, A, B, C) baseado em pontuação.</p>
+                    <p><strong>Exercício 3:</strong> Refatore um código para eliminar aninhamento desnecessário.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 7 -->
+            <section id="topico-7" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 7.</span> Loops (for / while)</h2>
+                
+                <p>Loops automatizam a repetição até que uma condição de término seja atingida. O <code>for</code> é para repetições conhecidas, enquanto o <code>while</code> é para repetições que dependem de um estado.</p>
+
+                <h3>O Loop for</h3>
+                <div class="code-window">
+                    <div class="code-header">javascript — Loop for</div>
+<pre><code class="language-javascript">// Inicializa em 0; executa enquanto i < 5; incrementa i em 1
+for (let i = 0; i < 5; i++) {
+  console.log(`Iteração número: ${i}`);
+}</code></pre>
+                </div>
+
+                <h3>O Loop while</h3>
+                <div class="code-window">
+                    <div class="code-header">javascript — Loop while</div>
+<pre><code class="language-javascript">let energia = 100;
+let tentativa = 1;
+
+while (energia > 20) {
+  console.log(`Tentativa ${tentativa}: energia em ${energia}`);
+  energia -= 15;
+  tentativa++;
+}</code></pre>
+                </div>
+
+                <h3>Controle de Fluxo: break e continue</h3>
+                <ul class="content-list">
+                    <li><strong><code>break</code>:</strong> Interrompe totalmente o loop.</li>
+                    <li><strong><code>continue</code>:</strong> Pula o restante da iteração e vai para a próxima.</li>
+                </ul>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Utilize um loop for para exibir os números de 10 até 1.</p>
+                    <p><strong>Exercício 2:</strong> Use um for para somar todos os números de 1 a 50 com um acumulador.</p>
+                    <p><strong>Exercício 3:</strong> Simule um processo de conexão falho usando while e break.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 8 -->
+            <section id="topico-8" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 8.</span> Condicionais Múltiplas (switch)</h2>
+                
+                <p>A instrução <code>switch</code> avalia uma expressão e compara o resultado (com <code>===</code>) com múltiplas cláusulas <code>case</code>. O <code>break</code> é fundamental para evitar a execução encadeada (fall-through).</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Estrutura switch</div>
+<pre><code class="language-javascript">const statusPedido = "enviado";
+
+switch (statusPedido) {
+  case "pendente":
+    console.log("Aguardando pagamento.");
+    break;
+  case "enviado":
+    console.log("Em trânsito.");
+    break;
+  default:
+    console.log("Status desconhecido.");
+}</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <span class="material-symbols-outlined callout-icon">warning</span>
+                    <div class="text-content">
+                        <strong>Atenção Crítica: Fall-through</strong><br>
+                        Sem o break, o interpretador continua executando sequencialmente os blocos seguintes. Sempre inclua break ao final de cada bloco, a não ser que o agrupamento seja intencional.
+                    </div>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Crie um switch mapeando teclas ("Enter", "Esc", "Ctrl").</p>
+                    <p><strong>Exercício 2:</strong> Analise um caso de fall-through sem break.</p>
+                    <p><strong>Exercício 3:</strong> Converta o switch do Exercício 1 em um objeto literal de mapeamento.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 9 -->
+            <section id="topico-9" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 9.</span> Introdução às Funções</h2>
+                
+                <p>Funções encapsulam lógica repetitiva em uma unidade reutilizável, fundamentando o princípio DRY (Don't Repeat Yourself).</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Declaração vs Invocação</div>
+<pre><code class="language-javascript">// 1. Declaração (armazena na memória)
+function inicializarSistema() {
+  console.log("Carregando módulos...");
+  console.log("Sistema pronto.");
+}
+
+// 2. Invocação (executa o código)
+inicializarSistema();</code></pre>
+                </div>
+
+                <h3>Referência vs Execução</h3>
+                <p><code>minhaFuncao</code> passa a referência da função (sem executar), enquanto <code>minhaFuncao()</code> diz ao interpretador para executá-la.</p>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Crie e invoque a função <code>configurarPerfil()</code>.</p>
+                    <p><strong>Exercício 2:</strong> Preveja o resultado entre a referência e a chamada de uma função.</p>
+                    <p><strong>Exercício 3:</strong> Reescreva um código repetitivo abstraindo para a função <code>exibirStatus()</code>.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 10 -->
+            <section id="topico-10" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 10.</span> Parâmetros e Retorno</h2>
+                
+                <p>A instrução <code>return</code> devolve um valor para quem invocou a função e encerra a execução da mesma imediatamente.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Parâmetros e Argumentos</div>
+<pre><code class="language-javascript">function calcularPotencia(base, expoente) {
+  let resultado = 1;
+  for (let i = 0; i < expoente; i++) {
+    resultado *= base;
+  }
+  return resultado;
+}
+
+const valor = calcularPotencia(2, 10);
+console.log(valor); // 1024</code></pre>
+                </div>
+
+                <h3>Padrão: Guard Clauses (Retorno Antecipado)</h3>
+                <p>Valide condições de falha primeiro e use <code>return</code> para sair cedo. Reduz a indentação.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Guard Clause & Valores Padrão</div>
+<pre><code class="language-javascript">function gerarPagina(titulo, idioma = "pt-BR") {
+  if (!titulo) return "Erro: Título obrigatório";
+  return `Página "${titulo}" em ${idioma}.`;
+}</code></pre>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Função com múltiplos retornos para classificar notas.</p>
+                    <p><strong>Exercício 2:</strong> Analise o uso de parâmetros default com taxa.</p>
+                    <p><strong>Exercício 3:</strong> Refatore código para usar return em vez de console.log interno.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 11 -->
+            <section id="topico-11" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 11.</span> Arrow Functions (=>)</h2>
+                
+                <p>Uma sintaxe mais compacta e moderna. Elimina a necessidade da palavra-chave <code>function</code>, podendo até suprimir as chaves e o <code>return</code> para casos de uma única linha (retorno implícito).</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Refatoração para arrow function</div>
+<pre><code class="language-javascript">// 1. Função tradicional
+function dobrarValor(n) { return n * 2; }
+
+// 2. Arrow function com bloco explícito
+const dobrarValor = (n) => { return n * 2; };
+
+// 3. Arrow function com retorno implícito (one-liner)
+const dobrarValor = n => n * 2;</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <span class="material-symbols-outlined callout-icon">warning</span>
+                    <div class="text-content">
+                        <strong>Diferença Crítica: Escopo do This</strong><br>
+                        Diferente das funções tradicionais, Arrow functions não possuem o próprio <code>this</code>. Elas herdam o escopo de onde foram declaradas. Não as use em métodos de objeto que precisam do <code>this</code>.
+                    </div>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Converta funções sintaticamente para arrow functions.</p>
+                    <p><strong>Exercício 2:</strong> Analise o escopo do this num objeto comparando modelo tradicional e arrow.</p>
+                    <p><strong>Exercício 3:</strong> Utilize arrow function num método <code>.filter()</code> de array.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 12 -->
+            <section id="topico-12" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 12.</span> Arrays (Vetores)</h2>
+                
+                <p>Arrays são listas ordenadas dinâmicas indexadas por números (começando em zero).</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Declaração e acesso</div>
+<pre><code class="language-javascript">const protocolos = ["HTTP", "FTP", "SSH", "DNS"];
+
+console.log(protocolos[0]); // "HTTP" (primeiro elemento)
+console.log(protocolos[3]); // "DNS" (último elemento)
+console.log(protocolos[4]); // undefined (índice inexistente)</code></pre>
+                </div>
+
+                <h3>Propriedade length</h3>
+                <p>Retorna o tamanho. Lembre-se do "off-by-one error": o último índice de um array sempre será <code>length - 1</code>.</p>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Crie um array e exiba o último elemento via length.</p>
+                    <p><strong>Exercício 2:</strong> Atualização in-place substituindo valores por índice.</p>
+                    <p><strong>Exercício 3:</strong> Modifique a propriedade length manual e veja as perdas de dados.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 13 -->
+            <section id="topico-13" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 13.</span> Métodos de Array</h2>
+                
+                <p>Métodos evitam loops manuais e deixam código declarativo. Dividem-se em mutadores e não-mutadores.</p>
+
+                <h3>Mutadores (alteram original)</h3>
+                <p><code>push()</code>, <code>pop()</code>, <code>shift()</code>, <code>splice()</code>, <code>sort()</code>.</p>
+                
+                <h3>Não-Mutadores (retornam cópia/valor)</h3>
+                <p><code>slice()</code>, <code>join()</code>, <code>includes()</code>.</p>
+
+                <h3>Iteração Funcional</h3>
+                <div class="code-window">
+                    <div class="code-header">javascript — map, filter, find</div>
+<pre><code class="language-javascript">const valores = [10, 25, 8, 42];
+
+// map: transforma cada valor
+const dobrados = valores.map(n => n * 2); // [20, 50, 16, 84]
+
+// filter: mantém apenas valores >= 20
+const altos = valores.filter(n => n >= 20); // [25, 42]
+
+// find: retorna o primeiro elemento par
+const primeiroPar = valores.find(n => n % 2 === 0); // 10</code></pre>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Transformação de preços usando <code>map()</code> (-10%).</p>
+                    <p><strong>Exercício 2:</strong> Filtre estoques ativos com <code>filter()</code> e pesquise por nome com <code>find()</code>.</p>
+                    <p><strong>Exercício 3:</strong> Compreenda a diferença de alterar arrays que foram 'fatiados' via <code>slice()</code>.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 14 -->
+            <section id="topico-14" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 14.</span> Objetos</h2>
+                
+                <p>Estruturas compostas por pares de chave-valor. Ideais para modelar entidades e agrupamentos lógicos.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Criação e acesso</div>
+<pre><code class="language-javascript">const configSistema = {
+  nome: "Dashboard",
+  versao: "2.4.1",
+  maxUsuarios: 500,
+  ativo: true
+};
+
+// Notação de ponto (recomendada)
+console.log(configSistema.nome); // "Dashboard"
+
+// Notação de colchetes (para chaves dinâmicas)
+const chaveDinamica = "versao";
+console.log(configSistema[chaveDinamica]); // "2.4.1"</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <span class="material-symbols-outlined callout-icon">warning</span>
+                    <div class="text-content">
+                        <strong>Referências em Memória</strong><br>
+                        Atribuir um objeto a outra variável apenas copia o apontador. Alterar a cópia também afeta o original (shallow copy). Use o operador Spread <code>{ ...obj }</code> para copiar separadamente.
+                    </div>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Declare objeto e acesse via ponto e colchetes.</p>
+                    <p><strong>Exercício 2:</strong> Modifique propriedade de objeto e adicione uma nova.</p>
+                    <p><strong>Exercício 3:</strong> Analise o vazamento de mutação através de cópias rasas por atribuição.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 15 -->
+            <section id="topico-15" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 15.</span> Métodos de Objeto</h2>
+                
+                <p>Ferramentas para inspecionar, iterar e manipular chaves e valores estruturais dinamicamente.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Inspeção de dados</div>
+<pre><code class="language-javascript">const config = {
+  tema: "escuro",
+  notificacoes: true,
+  idioma: "pt-BR"
+};
+
+console.log(Object.keys(config));    // ["tema", "notificacoes", "idioma"]
+console.log(Object.values(config));  // ["escuro", true, "pt-BR"]
+console.log(Object.entries(config)); // [["tema", "escuro"], ["notificacoes", true], ...]</code></pre>
+                </div>
+
+                <h3>Validação e Cópia</h3>
+                <p><code>Object.hasOwn(obj, "chave")</code> verifica a existência de forma segura.<br> 
+                O Spread Operator <code>{ ...obj1, ...obj2 }</code> é a forma moderna e legível para mesclar objetos.</p>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Use values() em conjunto com map/filter para somar valores int de um objeto.</p>
+                    <p><strong>Exercício 2:</strong> Verifique validação de pedido via <code>hasOwn</code>.</p>
+                    <p><strong>Exercício 3:</strong> Teste as prioridades de mesclagem ao aplicar o Spread Operator em diferentes ordens.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 16 -->
+            <section id="topico-16" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 16.</span> O DOM</h2>
+                
+                <div class="callout callout-tech">
+                    <span class="material-symbols-outlined callout-icon">menu_book</span>
+                    <div class="text-content">
+                        <strong>Definição Técnica</strong><br>
+                        O DOM (Document Object Model) converte cada elemento HTML em um nó (node) em memória, criando uma árvore viva. É a ponte entre a estrutura estática (HTML) e a interatividade programável (JavaScript).
+                    </div>
+                </div>
+
+                <p>Modificar o DOM via JS não muda o seu arquivo HTML original no servidor, ele atualiza apenas a instância em RAM mostrada no navegador (o layout da tela).</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Inspeção e Navegação</div>
+<pre><code class="language-javascript">console.log(document.title);       // Título atual
+console.log(document.body);        // O body inteiro
+
+const app = document.getElementById("app");
+console.log(app.children.length);  // Qtos filhos elementos ele tem?
+console.log(app.parentNode);       // Quem é o pai do app?</code></pre>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Inspecione os nós do body no DevTools.</p>
+                    <p><strong>Exercício 2:</strong> Teste alterar DOM via console e inspecionar código-fonte puro pra ver a separação.</p>
+                    <p><strong>Exercício 3:</strong> Navegação programática via ParentNode e NextElementSibling.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 17 -->
+            <section id="topico-17" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 17.</span> Seleção de Elementos</h2>
+                
+                <p>É o processo de localizar nós no DOM para poder alterá-los. Os seletores modernos usam a exata mesma sintaxe do CSS.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — querySelector</div>
+<pre><code class="language-javascript">// Seleciona o primeiro elemento que coincidir
+const titulo = document.querySelector("#titulo-principal");
+const primeiroDestaque = document.querySelector(".destaque");
+
+// Seleciona uma NodeList com todos (precisa iterar para modificar)
+const todosItens = document.querySelectorAll("ul.menu > li");</code></pre>
+                </div>
+
+                <div class="callout callout-good">
+                    <span class="material-symbols-outlined callout-icon">check_circle</span>
+                    <div class="text-content">
+                        <strong>Boa prática</strong><br>
+                        Prefira <code>querySelector</code> e <code>querySelectorAll</code> aos antigos getElementById/ClassName. Eles são consistentes e flexíveis (aceitando atributos complexos do CSS).
+                    </div>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Conte o length de um querySelectorAll em parágrafos de teste.</p>
+                    <p><strong>Exercício 2:</strong> Escreva seletores complexos via ID e filhos diretos.</p>
+                    <p><strong>Exercício 3:</strong> Crie seletores com escopos fechados, fazendo querySelector em cima de outro elemento ao invés do document inteiro.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 18 -->
+            <section id="topico-18" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 18.</span> Manipulação do DOM</h2>
+                
+                <p>Após a seleção, aplica-se a mudança. Toda mudança pode disparar recalculo do navegador (Repaint / Reflow).</p>
+
+                <h3>Conteúdo: textContent vs innerHTML</h3>
+                <ul class="content-list">
+                    <li><strong>textContent:</strong> Seguro, rápido e literal. Modifica apenas texto.</li>
+                    <li><strong>innerHTML:</strong> Avalia strings como tags. Perigoso para XSS se for oriundo de formulários e inputs do usuário.</li>
+                </ul>
+
+                <h3>Classes e Estilos</h3>
+                <div class="code-window">
+                    <div class="code-header">javascript — classList</div>
+<pre><code class="language-javascript">const modal = document.querySelector(".modal-container");
+
+modal.classList.add("visivel");     // Adiciona
+modal.classList.remove("oculto");  // Remove
+modal.classList.toggle("ativo");   // Se tem, tira. Se não tem, coloca.</code></pre>
+                </div>
+
+                <h3>Criação Dinâmica de Elementos</h3>
+                <div class="code-window">
+                    <div class="code-header">javascript — Inserção dinâmica</div>
+<pre><code class="language-javascript">const lista = document.querySelector("#logs-sistema");
+const novoItem = document.createElement("li"); // 1. Criar
+
+novoItem.textContent = "Backup concluído";     // 2. Configurar
+novoItem.classList.add("log-sucesso");
+
+lista.appendChild(novoItem);                   // 3. Inserir no DOM</code></pre>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Botão Incrementador de texto usando textContent.</p>
+                    <p><strong>Exercício 2:</strong> Trocador de temas claro/escuro via <code>classList.toggle</code>.</p>
+                    <p><strong>Exercício 3:</strong> Construa lista programaticamente via forEach e appendChild.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 19 -->
+            <section id="topico-19" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 19.</span> Eventos</h2>
+                
+                <p>Eventos são sinais assíncronos gerados pela interação (cliques, teclado, carregamento). Listeners ficam escutando e reagem disparando callbacks (funções atreladas).</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Registro de listener</div>
+<pre><code class="language-javascript">const botao = document.querySelector("#btn-confirmar");
+
+botao.addEventListener("click", (e) => {
+  console.log("Clicado pelo usuário na coordenada:", e.clientY);
+});</code></pre>
+                </div>
+
+                <h3>O Objeto Event</h3>
+                <p><code>e.target</code> indica o emissor. <code>e.preventDefault()</code> impede comportamentos nativos de navegação ou submit de formulários.</p>
+
+                <h3>Delegação de Eventos (Event Bubbling)</h3>
+                <p>Em vez de vincular cliques para cada item de uma lista longa, você atrela no elemento pai (<ul>) e usa o <code>e.target.matches('li')</code> para checar onde clicou com altíssima performance.</p>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Capture um clique simples num botão para renomeá-lo.</p>
+                    <p><strong>Exercício 2:</strong> Intercepte o href de um link nativo usando preventDefault.</p>
+                    <p><strong>Exercício 3:</strong> Delegação numa tabela ou lista HTML de remoção com e.target.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 20 -->
+            <section id="topico-20" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 20.</span> Promises</h2>
+                
+                <p>Promessas representam operações assíncronas no JS (requisições, timeouts, arquivos). Elas vivem em 3 estados: Pendente, Cumprida (Resolved) e Rejeitada (Rejected).</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Tratamento de estados</div>
+<pre><code class="language-javascript">buscaDados
+  .then((resultado) => {
+    // Executado se a Promise for resolve
+    console.log("Sucesso:", resultado);
+  })
+  .catch((erro) => {
+    // Executado se a Promise for reject
+    console.error("Falha:", erro);
+  })
+  .finally(() => {
+    // Roda em ambos os casos (limpeza e spin loaders)
+    console.log("Fim da operação");
+  });</code></pre>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Simule o tempo de internet via setTimeout numa Promise retornando dados fictícios.</p>
+                    <p><strong>Exercício 2:</strong> Traceja ordem de execução console.log x Promises (Microtasks).</p>
+                    <p><strong>Exercício 3:</strong> Encadeamento de múltiplos .then modificando o retorno.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 21 -->
+            <section id="topico-21" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 21.</span> Async/Await</h2>
+                
+                <p>Uma roupagem (syntactic sugar) mais moderna sobre o topo de Promises, para evitar o uso excessivo de encadeamentos .then() tornando o código lido como se fosse linear, síncrono.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Async / Await com try-catch</div>
+<pre><code class="language-javascript">async function processarPedido(id) {
+  try {
+    const pedido = await fetch(`/api/pedidos/${id}`); // pausa aqui
+    if (!pedido.ok) throw new Error("Pedido não encontrado");
+    
+    console.log("Sucesso");
+  } catch (erro) {
+    console.error("Falha ao processar:", erro.message);
+  }
+}</code></pre>
+                </div>
+
+                <div class="callout callout-good">
+                    <span class="material-symbols-outlined callout-icon">check_circle</span>
+                    <div class="text-content">
+                        <strong>Boa prática</strong><br>
+                        Abrace blocos try/catch para funções assíncronas. Uma reject escapada sem catch crasha workers e lança avisos perigosos.
+                    </div>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Reescreva cadeias then antigas para await constants.</p>
+                    <p><strong>Exercício 2:</strong> Construa delays artificiais usando await setTimeout Promisificados.</p>
+                    <p><strong>Exercício 3:</strong> Acione erro via throw e pesque-o na aba Catch do script.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 22 -->
+            <section id="topico-22" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 22.</span> Fetch API</h2>
+                
+                <p>A ferramenta central nativa para fazer chamadas HTTP de APIs REST externas. Usa modelo duplo de Promessa (Aguardar rede -> Aguardar parsing JSON).</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Fetch GET</div>
+<pre><code class="language-javascript">async function carregarUsuarios() {
+  const resposta = await fetch("https://jsonplaceholder.typicode.com/users");
+  if (!resposta.ok) throw new Error(`HTTP: ${resposta.status}`); // Manual Check!
+  
+  const json = await resposta.json();
+  console.log(json);
+}</code></pre>
+                </div>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Fetch POST</div>
+<pre><code class="language-javascript">await fetch("/api", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(meusDados) // converte OBJ em String pra trafegar
+});</code></pre>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Chamada GET numa API real (ex: Dog CEO).</p>
+                    <p><strong>Exercício 2:</strong> Capture erros 404 conferindo propriedades de Response.</p>
+                    <p><strong>Exercício 3:</strong> Baixe lista remota via JSON e mostre em LI's do DOM HTML.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 23 -->
+            <section id="topico-23" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 23.</span> LocalStorage</h2>
+                
+                <p>API do cliente para reter texto de modo persistente sem expiração nativa.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Operações Fundamentais</div>
+<pre><code class="language-javascript">// Tudo entra e sai como String!
+localStorage.setItem("tema", "escuro");
+const tema = localStorage.getItem("tema");
+localStorage.removeItem("tema");</code></pre>
+                </div>
+
+                <h3>Armazenando Arrays/Objetos</h3>
+                <p>Uso mandatório dos serializadores de JSON.</p>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — Strings vs Json</div>
+<pre><code class="language-javascript">// Salvando array complexo
+const meuArray = [1, 2, 3];
+localStorage.setItem("salvo", JSON.stringify(meuArray));
+
+// Puxando
+const retornado = JSON.parse(localStorage.getItem("salvo"));</code></pre>
+                </div>
+
+                <div class="callout callout-warning">
+                    <span class="material-symbols-outlined callout-icon">warning</span>
+                    <div class="text-content">
+                        <strong>Segurança</strong><br>
+                        Por via de regra o LocalStorage está vulnerável e aberto a todos os scripts da tela. NUNCA grave travas, Tokens, Cartões ou credenciais diretamente no local. Use apenas para preferências locais inofensivas.
+                    </div>
+                </div>
+
+                <div class="card p-6 mt-6 bg-[#f8f9fa] border-dashed">
+                    <h4 class="font-bold flex items-center gap-2 mb-4"><span class="material-symbols-outlined">edit_document</span> Exercícios de Fixação</h4>
+                    <p><strong>Exercício 1:</strong> Recarregamento de página restaurando a opção de Dark Mode.</p>
+                    <p><strong>Exercício 2:</strong> Atualização de array de tarefas somando strings parseadas.</p>
+                    <p><strong>Exercício 3:</strong> Lida com Exception Quota Exceeded nos arrays locais.</p>
+                </div>
+            </section>
+
+            <!-- Tópico 24 -->
+            <section id="topico-24" class="scroll-mt-12 mb-16">
+                <h2><span class="text-google-blue font-bold">Tópico 24.</span> Projeto Final: Lista de Tarefas</h2>
+                
+                <p>O resultado onde integramos DOM, EventListeners, Métodos de Array e o LocalStorage num único esqueleto arquitetural funcional.</p>
+
+                <div class="code-window">
+                    <div class="code-header">html & css — estrutura base</div>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="pt-BR"&gt;
+&lt;head&gt;
+  &lt;style&gt;
+    body { font-family: sans-serif; max-width: 400px; margin: 2rem auto; }
+    .input-group { display: flex; gap: 8px; margin-bottom: 1rem; }
+    input { flex: 1; padding: 8px; }
+    ul { list-style: none; padding: 0; }
+    li { display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #eee; }
+    .concluido { text-decoration: line-through; color: #888; }
+    .btn-remover { cursor: pointer; color: red; font-weight: bold; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h2&gt;Minha Lista&lt;/h2&gt;
+  &lt;div class="input-group"&gt;
+    &lt;input type="text" id="novaTarefa" placeholder="O que precisa ser feito?"&gt;
+    &lt;button id="btnAdicionar"&gt;Adicionar&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;ul id="listaTarefas"&gt;&lt;/ul&gt;
+  &lt;script src="app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </div>
+
+                <div class="code-window">
+                    <div class="code-header">javascript — captura, adição e delegação (app.js)</div>
+<pre><code class="language-javascript">const input = document.querySelector("#novaTarefa");
+const botao = document.querySelector("#btnAdicionar");
+const lista = document.querySelector("#listaTarefas");
+
+// Escuta de delegação de clicks dentro da UL
+lista.addEventListener("click", (e) => {
+  // Clique no texto
+  if (e.target.tagName === "LI") {
+    e.target.classList.toggle("concluido");
+  }
+  
+  // Clique no botão X
+  if (e.target.classList.contains("btn-remover")) {
+    e.target.parentElement.remove();
+  }
+});
+
+// Criador universal de nós
+function adicionarItem(texto) {
+  const li = document.createElement("li");
+  li.textContent = texto; // Uso do content previne injeção XSS
+  
+  const btn = document.createElement("span");
+  btn.textContent = "×";
+  btn.classList.add("btn-remover");
+  
+  li.appendChild(btn);
+  lista.appendChild(li);
+}
+
+// Vinculo externo para ativação
+botao.addEventListener("click", () => {
+  if (input.value.trim() !== "") {
+    adicionarItem(input.value);
+    input.value = ""; // Limpa Input
+  }
+});</code></pre>
+                </div>
+
+                <h3>Desafios Finais de Expansão</h3>
+                <p>O código acima cria a versão "MVP" (Produto Mínimo Viável). Tente implementar as funcionalidades adicionais:</p>
+                <ul class="content-list">
+                    <li><strong>Persistência:</strong> Salve o array de tarefas no localStorage.</li>
+                    <li><strong>Tecla Enter:</strong> Permita adicionar a tarefa pressionando "Enter" no teclado no campo.</li>
+                    <li><strong>Contador:</strong> Exiba um contador "Total de tarefas: X" dinâmico.</li>
+                </ul>
+
+                <div class="mt-16 text-center border-t border-[#dadce0] pt-8">
+                    <h3 class="text-2xl text-google-blue mb-4">Encerramento do Curso</h3>
+                    <p>Parabéns. Você cobriu desde a variável mais básica até manipulação assíncrona e persistência de dados. O próximo passo é aplicar esse conhecimento construindo seus próprios projetos, lendo a documentação oficial (MDN Web Docs) e experimentando. A programação se aprende praticando, não apenas lendo.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Script para o Realce de Sintaxe -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+</body>
+</html>
